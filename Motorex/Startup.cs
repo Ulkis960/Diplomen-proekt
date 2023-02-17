@@ -37,6 +37,17 @@ namespace Motorex
             services.AddControllersWithViews();
             services.AddRazorPages();
 
+            services.AddDbContext<ApplicationDbContext>(options =>
+            options.UseLazyLoadingProxies()
+            .UseSqlServer(
+                Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDatabaseDeveloperPageExceptionFilter();
+
+            services.AddDefaultIdentity<ApplicationDbContext>()
+                .AddRoles<IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
+
             services.Configure<IdentityOptions>(options =>
             {
                 options.Password.RequireDigit = false;
