@@ -35,6 +35,7 @@ namespace Motorex
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
+            services.AddRazorPages();
 
             services.Configure<IdentityOptions>(options =>
             {
