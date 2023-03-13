@@ -4,41 +4,29 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Motorex.Domain
+namespace Motorex.Models.Motor
 {
-    public class Motor
+    public class MotorIndexVM
     {
         public int Id { get; set; }
-        [Required]
-        [MaxLength(30)]
-        [Display(Name = "Name")]
+        [Display(Name = "Product Name")]
         public string Model { get; set; }
-        [Required]
-
         public int BrandId { get; set; }
-
-        public virtual Brand Brand { get; set; }
-        [Required]
-
+        [Display(Name = "Brand")]
+        public string Brand { get; set; }
         public int CategoryId { get; set; }
-
-        public virtual Category Category { get; set; }
+        [Display(Name = "Category")]
+        public string Category { get; set; }
+        [Display(Name = "Engine Type")]
         public string TypeEngine { get; set; }
 
-
+        [Display(Name = "Picture")]
         public string Picture { get; set; }
-        [Required]
-        [Range(0,5000)]
-
+        [Display(Name = "Quantity")]
         public int Quantity { get; set; }
-        [Required]
-        [Range(0, 100000)]
-
+        [Display(Name = "Price")]
         public decimal Price { get; set; }
-        [Range(0, 100)]
+        [Display(Name = "Discount")]
         public decimal Discount { get; set; }
-
-        public virtual IEnumerable<Order> Orders { get; set; } = new List<Order>();
-        public string MotorName { get; internal set; }
     }
 }
