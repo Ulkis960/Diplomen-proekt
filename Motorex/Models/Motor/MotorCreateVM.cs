@@ -24,7 +24,7 @@ namespace Motorex.Models.Motor
 
         [Required]
         [Display(Name = "Brand")]
-        public int Brand { get; set; }
+        public int BrandId { get; set; }
         public virtual List<BrandPairVM> Brands { get; set; }
 
         [Required]

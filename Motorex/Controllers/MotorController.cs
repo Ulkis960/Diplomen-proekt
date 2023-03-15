@@ -66,13 +66,13 @@ namespace WebShopDemo.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([FromForm] MotorCreateVM product)
+        public ActionResult Create([FromForm] MotorCreateVM motor)
         {
             if (ModelState.IsValid)
             {
-                var createdId = _productService.Create(product.Model,
-                    product.Brand, product.CategoryId, product.Picture,
-                    product.Quantity, product.Price, product.Discount);
+                var createdId = _productService.Create(motor.Model,
+                    motor.BrandId, motor.CategoryId,motor.TypeEngine, motor.Picture,
+                    motor.Quantity, motor.Price, motor.Discount);
 
                 if ((bool)createdId)
                 {
@@ -92,7 +92,7 @@ namespace WebShopDemo.Controllers
             {
                 Id = product.Id,
                 Model = product.Model,
-                Brand = product.BrandId,
+                BrandId = product.BrandId,
                 CategoryId = product.CategoryId,
                 Picture = product.Picture,
                 Quantity = product.Quantity,
@@ -118,20 +118,20 @@ namespace WebShopDemo.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, MotorEditVM product)
+        public ActionResult Edit(int id, MotorEditVM motor)
         {
             if (ModelState.IsValid)
             {
-                var updated = _productService.Update(id, product.Model, product.Brand,
-                    product.CategoryId, product.Picture, product.Quantity,
-                    product.Price, product.Discount);
+                var updated = _productService.Update(id, motor.Model, motor.BrandId,
+                    motor.CategoryId,motor.TypeEngine, motor.Picture, motor.Quantity,
+                    motor.Price, motor.Discount);
 
                 if ((bool)updated)
                 {
                     return this.RedirectToAction("Index");
                 }
             }
-            return View(product);
+            return View(motor);
         }
 
         [AllowAnonymous]

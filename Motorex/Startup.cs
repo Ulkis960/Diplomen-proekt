@@ -10,6 +10,7 @@ using Microsoft.Extensions.Hosting;
 using Motorex.Abstraction;
 using Motorex.Data;
 using Motorex.Domain;
+using Motorex.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,7 +44,14 @@ namespace Motorex
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-           
+            services.AddTransient<IMotorService, MotorService>();
+            services.AddTransient<ICategoryService, CategoryService>();
+            services.AddTransient<IBrandService, BrandService>();
+
+            services.AddControllersWithViews();
+
+
+
             services.AddRazorPages();
 
             services.Configure<IdentityOptions>(options =>
