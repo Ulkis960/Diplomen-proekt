@@ -15,6 +15,7 @@ namespace Motorex.Infrastructure
         public static async Task<IApplicationBuilder> PrepareDatabase(this IApplicationBuilder app)
         {
             using var serviceScope = app.ApplicationServices.CreateScope();
+
             var services = serviceScope.ServiceProvider;
 
             await RoleSeeder(services);
@@ -25,18 +26,23 @@ namespace Motorex.Infrastructure
 
             var dataBrand = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
             SeedBrands(dataBrand);
+
             return app;
         }
 
-        public static async Task RoleSeeder(IServiceProvider serviceProvider)
+
+        private static async Task RoleSeeder(IServiceProvider serviceProvider)
         {
             var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-            string[] roleNames = { "Administrator", "Client", };
+
+            string[] roleNames = { "Administrator", "Client" };
 
             IdentityResult roleResult;
+
             foreach (var role in roleNames)
             {
                 var roleExist = await roleManager.RoleExistsAsync(role);
+
                 if (!roleExist)
                 {
                     roleResult = await roleManager.CreateAsync(new IdentityRole(role));
@@ -44,9 +50,11 @@ namespace Motorex.Infrastructure
             }
         }
 
-        public static async Task SeedAdministrator(IServiceProvider serviceProvider)
+
+        private static async Task SeedAdministrator(IServiceProvider serviceProvider)
         {
             var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+
             if (await userManager.FindByNameAsync("admin") == null)
             {
                 ApplicationUser user = new ApplicationUser();
@@ -56,24 +64,24 @@ namespace Motorex.Infrastructure
                 user.UserName = "admin";
                 user.Email = "admin@admin.com";
 
-                var result = await userManager.CreateAsync(user, "Admin123");
+                var result = await userManager.CreateAsync
+                (user, "Admin123456");
+
                 if (result.Succeeded)
                 {
                     userManager.AddToRoleAsync(user, "Administrator").Wait();
                 }
             }
         }
-
-        public static void SeedCategories(ApplicationDbContext dataCategory)
+        private static void SeedCategories(ApplicationDbContext dataCategory)
         {
             if (dataCategory.Categories.Any())
             {
                 return;
             }
-
             dataCategory.Categories.AddRange(new[]
             {
-                new Category{CategoryName="Street"},
+               new Category{CategoryName="Street"},
                 new Category{CategoryName="Super Bike"},
                 new Category{CategoryName="Tourer"},
                 new Category{CategoryName="Cross"},
@@ -81,20 +89,19 @@ namespace Motorex.Infrastructure
                 new Category{CategoryName="ATV"},
                 new Category{CategoryName="Enduro"},
                 new Category{CategoryName="Dresses"},
+
             });
             dataCategory.SaveChanges();
         }
-
-        public static void SeedBrands(ApplicationDbContext dataBrand)
+        private static void SeedBrands(ApplicationDbContext dataBrand)
         {
             if (dataBrand.Brands.Any())
             {
                 return;
             }
-
             dataBrand.Brands.AddRange(new[]
             {
-                new Brand{BrandName="Kawasaki"},
+                 new Brand{BrandName="Kawasaki"},                
                 new Brand{BrandName="Honda"},
                 new Brand{BrandName="Yamaha"},
                 new Brand{BrandName="Ducati"},
@@ -106,9 +113,13 @@ namespace Motorex.Infrastructure
                 new Brand{BrandName="KTM"},
                 new Brand{BrandName="AGV"},
                 new Brand{BrandName="Alpinestars"},
+
+
             });
             dataBrand.SaveChanges();
         }
+
+       
     }
 }
 

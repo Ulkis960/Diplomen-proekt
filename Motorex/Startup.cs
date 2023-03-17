@@ -10,6 +10,7 @@ using Microsoft.Extensions.Hosting;
 using Motorex.Abstraction;
 using Motorex.Data;
 using Motorex.Domain;
+using Motorex.Infrastructure;
 using Motorex.Services;
 using System;
 using System.Collections.Generic;
@@ -30,30 +31,30 @@ namespace Motorex
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
-
             services.AddDbContext<ApplicationDbContext>(options =>
-            options.UseLazyLoadingProxies()
-                 .UseSqlServer(
+           options.UseLazyLoadingProxies()
+               .UseSqlServer(
                    Configuration.GetConnectionString("DefaultConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
 
-
             services.AddDefaultIdentity<ApplicationUser>()
-                .AddRoles<IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
+                 .AddRoles<IdentityRole>()
+                 .AddEntityFrameworkStores<ApplicationDbContext>()
+                 .AddDefaultTokenProviders();
+
+            services.AddControllersWithViews();
 
             services.AddTransient<IMotorService, MotorService>();
+
             services.AddTransient<ICategoryService, CategoryService>();
             services.AddTransient<IBrandService, BrandService>();
 
-            services.AddControllersWithViews();
+           // services.AddTransient<IStatisticsService, StatisticsService>();
+
 
 
 
             services.AddRazorPages();
-
             services.Configure<IdentityOptions>(options =>
             {
                 options.Password.RequireDigit = false;
@@ -69,6 +70,7 @@ namespace Motorex
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.PrepareDatabase();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

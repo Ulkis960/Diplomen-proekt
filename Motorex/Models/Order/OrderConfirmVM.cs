@@ -19,15 +19,13 @@ namespace Motorex.Models.Order
 
             public DateTime OrderDate { get; set; }
             [Required]
-        
-
-            public int MotorId { get; set; }
-
-            public string MotorName { get; set; }
             public string UserId { get; set; }
 
             public string User { get; set; }
             [Required]
+            public int MotorId { get; set; }
+
+            public string MotorName { get; set; }
             public string Picture { get; set; }
             [Required]
             [Range(1, int.MaxValue)]
