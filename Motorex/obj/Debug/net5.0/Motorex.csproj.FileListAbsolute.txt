@@ -453,3 +453,6 @@ C:\Users\Student\OneDrive\Работен плот\Diplomen Proekt Repo\Diplomen-
 C:\Users\Student\OneDrive\Работен плот\Diplomen Proekt Repo\Diplomen-proekt\Motorex\obj\Debug\net5.0\Razor\Views\Order\Create.cshtml.g.cs
 C:\Users\Student\OneDrive\Работен плот\Diplomen Proekt Repo\Diplomen-proekt\Motorex\obj\Debug\net5.0\Razor\Views\Order\Index.cshtml.g.cs
 C:\Users\Student\OneDrive\Работен плот\Diplomen Proekt Repo\Diplomen-proekt\Motorex\obj\Debug\net5.0\Razor\Views\Order\MyOrders.cshtml.g.cs
+C:\Users\Student\OneDrive\Работен плот\Diplomen Proekt Repo\Diplomen-proekt\Motorex\obj\Debug\net5.0\Razor\Views\Client\Delete.cshtml.g.cs
+C:\Users\Student\OneDrive\Работен плот\Diplomen Proekt Repo\Diplomen-proekt\Motorex\obj\Debug\net5.0\Razor\Views\Client\Index.cshtml.g.cs
+C:\Users\Student\OneDrive\Работен плот\Diplomen Proekt Repo\Diplomen-proekt\Motorex\obj\Debug\net5.0\Razor\Views\Client\SuccessDeleteUser.cshtml.g.cs
