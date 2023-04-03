@@ -1,30 +1,38 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using Motorex.Abstraction;
 using Motorex.Data;
 using Motorex.Domain;
 using Motorex.Models.Order;
-using System.Security.Claims;
-using System.Globalization;
 
 namespace Motorex.Controllers
 {
+    [Authorize]
+    
     public class OrderController : Controller
     {
+
         private readonly ApplicationDbContext context;
 
         public OrderController(ApplicationDbContext context)
         {
             this.context = context;
         }
+        [Authorize(Roles = "Administrator")]
         public IActionResult Index()
         {
             string userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var user = context.Users.SingleOrDefault(u => u.Id == userId);
 
             List<OrderIndexVM> orders = context
-                .Orders
+                 .Orders
                 .Select(x => new OrderIndexVM
                 {
                     Id = x.Id,
@@ -32,7 +40,7 @@ namespace Motorex.Controllers
                     UserId = x.UserId,
                     User = x.User.UserName,
                     MotorId = x.MotorId,
-                    MotorName = x.Motor.MotorName,
+                    Motor = x.Motor.Model,
                     Picture = x.Motor.Picture,
                     Quantity = x.Quantity,
                     Price = x.Price,
@@ -42,6 +50,77 @@ namespace Motorex.Controllers
             return View(orders);
         }
 
+        // Get:
+        public ActionResult Create(int motorId, int quantity)
+        {
+
+            string userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var user = this.context.Users.SingleOrDefault(u => u.Id == userId);
+            var motor = this.context.Motors.SingleOrDefault(x => x.Id == motorId);
+
+            if (user == null || motor == null || motor.Quantity < quantity)
+            {
+                return this.RedirectToAction("Index", "Motor");
+            }
+            OrderConfirmVM orderForDb = new OrderConfirmVM
+            {
+
+                // Id = x.Id,
+                UserId = userId,
+                User = user.UserName,
+                MotorId = motorId,
+                Model = motor.Model,
+                Picture = motor.Picture,
+
+                Quantity = quantity,
+                Price = motor.Price,
+                Discount = motor.Discount,
+                TotalPrice = quantity * motor.Price - quantity * motor.Price * motor.Discount / 100
+            };
+            return View(orderForDb);
+
+        }
+
+        // POST: OrderController/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(OrderConfirmVM bindingModel)
+        {
+            if (this.ModelState.IsValid)
+            {
+                string userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                var user = this.context.Users.SingleOrDefault(u => u.Id == userId);
+                var motor = this.context.Motors.SingleOrDefault(x => x.Id == bindingModel.MotorId);
+
+                if (user == null || motor == null || motor.Quantity < bindingModel.Quantity || bindingModel.Quantity == 0)
+                {
+                    return this.RedirectToAction("Index", "Motor");
+                }
+                Order orderForDb = new Order
+                {
+
+                    // Id = x.Id,
+                    OrderDate = DateTime.UtcNow,
+                    MotorId = bindingModel.MotorId,
+                    UserId = userId,
+                    Quantity = bindingModel.Quantity,
+                    Price = motor.Price,
+                    Discount = motor.Discount,
+
+
+                };
+
+                motor.Quantity -= bindingModel.Quantity;
+
+                this.context.Motors.Update(motor);
+                this.context.Orders.Add(orderForDb);
+                this.context.SaveChanges();
+            }
+            return this.RedirectToAction("Index", "Motor");
+        }
+
+
+  
         public IActionResult MyOrders(string searchString)
         {
             string currentUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -50,10 +129,9 @@ namespace Motorex.Controllers
             {
                 return null;
             }
-
             List<OrderIndexVM> orders = context
-                .Orders
-                .Where(x => x.UserId == user.Id)
+                 .Orders
+                  .Where(x => x.UserId == user.Id)
                 .Select(x => new OrderIndexVM
                 {
                     Id = x.Id,
@@ -61,78 +139,19 @@ namespace Motorex.Controllers
                     UserId = x.UserId,
                     User = x.User.UserName,
                     MotorId = x.MotorId,
-                    MotorName = x.Motor.MotorName,
+                    Motor = x.Motor.Model,
                     Picture = x.Motor.Picture,
                     Quantity = x.Quantity,
                     Price = x.Price,
                     Discount = x.Discount,
                     TotalPrice = x.TotalPrice,
                 }).ToList();
-            if (!string.IsNullOrEmpty(searchString))
+
+            if (!String.IsNullOrEmpty(searchString))
             {
-                orders = orders.Where(o => o.MotorName.ToLower().Contains(searchString.ToLower())).ToList();
+                orders = orders.Where(o => o.Motor.ToLower().Contains(searchString.ToLower())).ToList();
             }
             return this.View(orders);
-        }
-
-        public ActionResult Create(int productId, int quantity)
-        {
-            string userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var user = this.context.Users.SingleOrDefault(u => u.Id == userId);
-            var product = this.context.Motors.SingleOrDefault(x => x.Id == productId);
-
-            if (user == null || product == null || product.Quantity < quantity)
-            {
-                return this.RedirectToAction("Index", "Product");
-            }
-            OrderConfirmVM orderForDb = new OrderConfirmVM
-            {
-                UserId = userId,
-                User = user.UserName,
-                MotorId = productId,
-                MotorName = product.MotorName,
-                Picture = product.Picture,
-
-                Quantity = quantity,
-                Price = product.Price,
-                Discount = product.Discount,
-                TotalPrice = quantity * product.Price - quantity * product.Price * product.Discount / 100
-            };
-            return View(orderForDb);
-        }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-
-        public ActionResult Create(OrderConfirmVM bindingModel)
-        {
-            if (this.ModelState.IsValid)
-            {
-                string userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-                var user = this.context.Users.SingleOrDefault(u => u.Id == userId);
-                var product = this.context.Motors.SingleOrDefault(x => x.Id == bindingModel.MotorId);
-
-                if (user == null || product == null || product.Quantity < bindingModel.Quantity || bindingModel.Quantity == 0)
-                {
-                    return this.RedirectToAction("Index", "Product");
-                }
-                Order orderForDb = new Order
-                {
-                    OrderDate = DateTime.UtcNow,
-                    MotorId = bindingModel.MotorId,
-                    UserId = userId,
-                    Quantity = bindingModel.Quantity,
-                    Price = product.Price,
-                    Discount = product.Discount,
-                };
-
-                product.Quantity -= bindingModel.Quantity;
-
-                this.context.Motors.Update(product);
-                this.context.Orders.Add(orderForDb);
-                this.context.SaveChanges();
-
-            }
-            return this.RedirectToAction("Index", "Product");
         }
     }
 }

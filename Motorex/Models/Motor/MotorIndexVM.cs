@@ -8,8 +8,9 @@ namespace Motorex.Models.Motor
 {
     public class MotorIndexVM
     {
+        [Key]
         public int Id { get; set; }
-        [Display(Name = "Product Name")]
+        [Display(Name = "Model")]
         public string Model { get; set; }
         public int BrandId { get; set; }
         [Display(Name = "Brand")]
@@ -17,7 +18,7 @@ namespace Motorex.Models.Motor
         public int CategoryId { get; set; }
         [Display(Name = "Category")]
         public string Category { get; set; }
-        [Display(Name = "Engine Type")]
+        [Display(Name = "Engine")]
         public string TypeEngine { get; set; }
 
         [Display(Name = "Picture")]

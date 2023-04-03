@@ -15,6 +15,7 @@ namespace Motorex.Models.Motor
             Brands = new List<BrandPairVM>();
             Categories = new List<CategoryPairVM>();
         }
+        [Key]
         public int Id { get; set; }
 
         [Required]

@@ -21,9 +21,10 @@ namespace Motorex.Services
         {
             Motor item = new Motor
             {
-                MotorName = model,
+                Model = model,
                 Brand = _context.Brands.Find(brandId),
                 Category = _context.Categories.Find(categoryId),
+                TypeEngine = typeEngine,
                 Picture = picture,
                 Quantity = quantity,
                 Price = price,
@@ -40,31 +41,30 @@ namespace Motorex.Services
 
         public List<Motor> GetProducts()
         {
-            List<Motor> Motors = _context.Motors.ToList();
-            return Motors;
+            List<Motor> motors = _context.Motors.ToList();
+            return motors;
         }
 
         public List<Motor> GetProducts(string searchStringCategoryName, string searchStringBrandName)
         {
-            List<Motor> motors = _context.Motors.ToList();
-
+            List<Motor> products = _context.Motors.ToList();
             if (!String.IsNullOrEmpty(searchStringCategoryName) && !String.IsNullOrEmpty(searchStringBrandName))
             {
-                motors = motors.Where(x => x.Category.CategoryName.ToLower().Contains(searchStringCategoryName.ToLower())
-                && x.Brand.BrandName.ToLower().Contains(searchStringBrandName)).ToList();
+                products = products.Where(x => x.Category.CategoryName.ToLower().Contains(searchStringCategoryName.ToLower())
+                && x.Brand.BrandName.ToLower().Contains(searchStringBrandName.ToLower())).ToList();
             }
             else if (!String.IsNullOrEmpty(searchStringCategoryName))
             {
-                motors = motors.Where(x => x.Category.CategoryName.ToLower().Contains(searchStringCategoryName.ToLower())).ToList();
+                products = products.Where(x => x.Category.CategoryName.ToLower().Contains(searchStringCategoryName.ToLower())).ToList();
             }
             else if (!String.IsNullOrEmpty(searchStringBrandName))
             {
-                motors = motors.Where(x => x.Brand.BrandName.ToLower().Contains(searchStringBrandName)).ToList();
+                products = products.Where(x => x.Brand.BrandName.ToLower().Contains(searchStringBrandName.ToLower())).ToList();
             }
+            return products;
 
-            return motors;
         }
-
+       
         public bool RemoveById(int productId)
         {
             var motor = GetProductById(productId);
@@ -75,26 +75,34 @@ namespace Motorex.Services
             return _context.SaveChanges() != 0;
         }
 
-        public bool Update(int MotorId, string model, int brandId, int categoryId, string typeEngine, string picture, int quantity, decimal price, decimal discount)
+        public bool Update(int motorId, string model, int brandId, int categoryId, string typeEngine, string picture, int quantity, decimal price, decimal discount)
         {
-            var product = GetProductById(MotorId);
+            var product = GetProductById(motorId);
             if (product == default(Motor))
-            { return false; }
-            product.MotorName = model;
+            {
+                return false;
+            }
+            product.Model = model;
 
-            product.BrandId = brandId;
-            product.CategoryId = categoryId;
+            //TO DO
+
+            //product.BrandId = brandId;
+            //product.CategoryId = categoryId;
 
             product.Brand = _context.Brands.Find(brandId);
             product.Category = _context.Categories.Find(categoryId);
+            product.TypeEngine = typeEngine;
 
             product.Picture = picture;
             product.Quantity = quantity;
             product.Price = price;
             product.Discount = discount;
-
             _context.Update(product);
             return _context.SaveChanges() != 0;
+
+
+
+           
         }      
     }
 }

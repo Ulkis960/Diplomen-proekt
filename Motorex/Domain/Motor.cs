@@ -11,7 +11,7 @@ namespace Motorex.Domain
         public int Id { get; set; }
         [Required]
         [MaxLength(30)]
-        [Display(Name = "Name")]
+        [Display(Name = "Model")]
         public string Model { get; set; }
         [Required]
 
@@ -39,6 +39,6 @@ namespace Motorex.Domain
         public decimal Discount { get; set; }
 
         public virtual IEnumerable<Order> Orders { get; set; } = new List<Order>();
-        public string MotorName { get; internal set; }
+      
     }
 }

@@ -9,7 +9,7 @@ namespace Motorex.Models.Motor
     public class MotorDetailsVM
     {
         public int Id { get; set; }
-        [Display(Name = "Product Name")]
+        [Display(Name = "Model")]
         public string Model { get; set; }
         public int BrandId { get; set; }
         [Display(Name = "Brand")]

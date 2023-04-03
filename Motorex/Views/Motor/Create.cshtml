@@ -1,6 +1,8 @@
 ﻿@model Motorex.Models.Motor.MotorCreateVM
 
-@{ ViewData["Title"] = "Create"; }
+@{
+    ViewData["Title"] = "Create";
+}
 
 <h1>Create</h1>
 
@@ -21,7 +23,8 @@
                 <select asp-for="BrandId" class="form-control text-center">
                     @foreach (var brand in Model.Brands)
                     {
-        <option value="@brand.Id">@brand.Name</option>}
+                        <option value="@brand.Id">@brand.Name</option>
+                    }
                 </select>
                 <span asp-validation-for="BrandId" class="text-danger"></span>
             </div>
@@ -31,9 +34,15 @@
                 <select asp-for="CategoryId" class="form-control text-center">
                     @foreach (var category in Model.Categories)
                     {
-        <option value="@category.Id">@category.Name</option>}
+                        <option value="@category.Id">@category.Name</option>
+}
                 </select>
                 <span asp-validation-for="CategoryId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TypeEngine" class="control-label"></label>
+                <input asp-for="TypeEngine" class="form-control" />
+                <span asp-validation-for="TypeEngine" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Picture" class="control-label"></label>

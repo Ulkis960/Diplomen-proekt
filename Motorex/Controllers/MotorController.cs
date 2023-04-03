@@ -14,13 +14,13 @@ using System.Threading.Tasks;
 namespace WebShopDemo.Controllers
 {
     [Authorize(Roles = "Administrator")]
-    public class ProductController : Controller
+    public class MotorController : Controller
     {
         private readonly IMotorService _productService;
         private readonly ICategoryService _categoryService;
         private readonly IBrandService _brandService;
 
-        public ProductController(IMotorService productService, ICategoryService categoryService, IBrandService brandService)
+        public MotorController(IMotorService productService, ICategoryService categoryService, IBrandService brandService)
         {
             _productService = productService;
             _categoryService = categoryService;
@@ -31,21 +31,25 @@ namespace WebShopDemo.Controllers
         public ActionResult Index(string searchStringCategoryName, string searchStringBrandName)
         {
             List<MotorIndexVM> products = _productService.GetProducts(searchStringCategoryName, searchStringBrandName)
-                .Select(product => new MotorIndexVM
-                {
-                    Id = product.Id,
-                    Model = product.MotorName,
-                    BrandId = product.BrandId,
-                    Brand = product.Brand.BrandName,
-                    CategoryId = product.CategoryId,
-                    Category = product.Category.CategoryName,
-                    Picture = product.Picture,
-                    Quantity = product.Quantity,
-                    Price = product.Price,
-                    Discount = product.Discount,
-                }).ToList();
+            .Select(product => new MotorIndexVM
+            {
+                Id = product.Id,
+                Model = product.Model,
+                BrandId = product.BrandId,
+                Brand = product.Brand.BrandName,
+                CategoryId = product.CategoryId,
+                Category = product.Category.CategoryName,
+                TypeEngine = product.TypeEngine,
+                Picture = product.Picture,
+                Quantity = product.Quantity,
+                Price = product.Price,
+                Discount = product.Discount
+
+            }).ToList();
             return this.View(products);
+
         }
+       
         public ActionResult Create()
         {
             var product = new MotorCreateVM();
@@ -94,6 +98,7 @@ namespace WebShopDemo.Controllers
                 Model = product.Model,
                 BrandId = product.BrandId,
                 CategoryId = product.CategoryId,
+                TypeEngine=product.TypeEngine,
                 Picture = product.Picture,
                 Quantity = product.Quantity,
                 Price = product.Price,
@@ -120,19 +125,22 @@ namespace WebShopDemo.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, MotorEditVM motor)
         {
+
             if (ModelState.IsValid)
             {
                 var updated = _productService.Update(id, motor.Model, motor.BrandId,
-                    motor.CategoryId,motor.TypeEngine, motor.Picture, motor.Quantity,
-                    motor.Price, motor.Discount);
-
-                if ((bool)updated)
+                                                   motor.CategoryId, motor.TypeEngine, motor.Picture,
+                                                   motor.Quantity, motor.Price, motor.Discount);
+                if (updated)
                 {
                     return this.RedirectToAction("Index");
                 }
+
             }
             return View(motor);
         }
+            
+       
 
         [AllowAnonymous]
         public ActionResult Details(int id)
@@ -150,6 +158,7 @@ namespace WebShopDemo.Controllers
                 Brand = item.Brand.BrandName,
                 CategoryId = item.CategoryId,
                 Category = item.Category.CategoryName,
+                TypeEngine=item.TypeEngine,
                 Picture = item.Picture,
                 Quantity = item.Quantity,
                 Price = item.Price,
@@ -172,6 +181,7 @@ namespace WebShopDemo.Controllers
                 Brand = product.Brand.BrandName,
                 CategoryId = product.CategoryId,
                 Category = product.Category.CategoryName,
+                TypeEngine=product.TypeEngine,
                 Picture = product.Picture,
                 Quantity = product.Quantity,
                 Price = product.Price,

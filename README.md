@@ -1,2 +1,0 @@
-# Diplomen-proekt
-Diplomen proekt

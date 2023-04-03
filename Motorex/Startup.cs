@@ -32,9 +32,9 @@ namespace Motorex
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
-           options.UseLazyLoadingProxies()
-               .UseSqlServer(
-                   Configuration.GetConnectionString("DefaultConnection")));
+             options.UseLazyLoadingProxies()
+                 .UseSqlServer(
+                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             services.AddDefaultIdentity<ApplicationUser>()
@@ -49,7 +49,7 @@ namespace Motorex
             services.AddTransient<ICategoryService, CategoryService>();
             services.AddTransient<IBrandService, BrandService>();
 
-           // services.AddTransient<IStatisticsService, StatisticsService>();
+            services.AddTransient<IStatisticService, StatisticService>();
 
 
 

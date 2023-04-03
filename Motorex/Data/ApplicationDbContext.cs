@@ -4,6 +4,7 @@ using Motorex.Domain;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Motorex.Models.Motor;
 
 namespace Motorex.Data
 {
@@ -21,5 +22,7 @@ namespace Motorex.Data
         public DbSet<Category> Categories { get; set; }
 
         public DbSet<Order> Orders { get; set; }
+
+      //  public DbSet<Motorex.Models.Motor.MotorCreateVM> MotorCreateVM { get; set; }
     }
 }
