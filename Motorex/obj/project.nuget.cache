@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "UYo4upGHEASgZzKgx3FGCvzUVfHgvt+/7kujhCnjuyQOFyA+/qsxBf9xpic1Yv5Qzcs4TlGy1nZXK25XjALsAg==",
+  "dgSpecHash": "B4g+coSK0kA8kEKVRsaB921MD2tUmVGB2uMW5t5UtowsFGdd3z0ikw/PGfGVd3hdU+Th70OEpqGO9O+sqgy8jA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Student\\OneDrive\\Работен плот\\Motorex\\Motorex.csproj",
+  "projectFilePath": "C:\\Users\\Student\\OneDrive\\Работен плот\\Diplomen-proekt\\Motorex\\Motorex.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Student\\.nuget\\packages\\castle.core\\4.4.1\\castle.core.4.4.1.nupkg.sha512",
     "C:\\Users\\Student\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",

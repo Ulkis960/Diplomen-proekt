@@ -62,6 +62,7 @@ namespace Motorex.Controllers
             {
                 return this.RedirectToAction("Index", "Motor");
             }
+
             OrderConfirmVM orderForDb = new OrderConfirmVM
             {
 

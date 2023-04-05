@@ -22,30 +22,57 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Contacts</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Motor" asp-action="Index">Motors</a>
                         </li>
+
+                        <li class="nav-item active">
+                            <div class="dropdown show">
+                                <a class="nav-link active dropdown-toggle" href="e"
+                                   id="dropdownMenuLink" data-toggle="dropdown"
+                                   aria-haspopup="true" aria-expanded="false">
+                                   Motors
+                                </a>
+
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                    <a class="dropdown-item" asp-controller="Motor" asp-action="Index">All Motors</a>
+                                    <a href="https://localhost:44366/Motor?SearchStringBrandName=Kawasaki&SearchStringCategoryName=">Kavazaki</a>
+                                    <br />
+                                    <a href="https://localhost:44366/Motor?SearchStringBrandName=Honda&SearchStringCategoryName=">Honda</a>
+                                    
+                                </div>
+
+                            </div>
+                        </li>
+
+                        @if (this.User.Identity.IsAuthenticated)
+
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Order" asp-action="MyOrders">MyOrders</a>
+                            </li>
+                        }
                         @if ((this.User.Identity.IsAuthenticated) && (this.User.IsInRole("Administrator")))
                         {
-                            <li class="nav-item active">
-                                <div class="dropdown show">
-                                    <a class="nav-link active dropdown-toggle" href="e"
-                                       id="dropdownMenuLink" data-toggle="dropdown"
-                                       aria-haspopup="true" aria-expanded="false">
-                                       Statistic Module
-                                    </a>
+                    <li class="nav-item active">
+                        <div class="dropdown show">
+                            <a class="nav-link active dropdown-toggle" href="e"
+                               id="dropdownMenuLink" data-toggle="dropdown"
+                               aria-haspopup="true" aria-expanded="false">
+                                Statistic Module
+                            </a>
 
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                        <a class="dropdown-item" asp-controller="Client" asp-action="Index">Clients</a>
-                                        <a class="dropdown-item" asp-controller="Order" asp-action="Index">Orders</a>
-                                        <a class="dropdown-item" asp-controller="Statistics" asp-action="Index">Statistics</a>
-                                    </div>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                <a class="dropdown-item" asp-controller="Client" asp-action="Index">Clients</a>
+                                <a class="dropdown-item" asp-controller="Order" asp-action="Index">Orders</a>
+                                <a class="dropdown-item" asp-controller="Statistics" asp-action="Index">Statistics</a>
+                            </div>
 
-                                </div> 
-                            </li> 
-                        }
+                        </div>
+                    </li>
+}
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>
