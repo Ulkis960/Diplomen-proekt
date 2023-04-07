@@ -24,28 +24,34 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Contacts</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Motor" asp-action="Index">Motors</a>
-                        </li>
 
                         <li class="nav-item active">
                             <div class="dropdown show">
                                 <a class="nav-link active dropdown-toggle" href="e"
                                    id="dropdownMenuLink" data-toggle="dropdown"
                                    aria-haspopup="true" aria-expanded="false">
-                                   Motors
+                                    Motors
                                 </a>
 
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                                     <a class="dropdown-item" asp-controller="Motor" asp-action="Index">All Motors</a>
-                                    <a href="https://localhost:44366/Motor?SearchStringBrandName=Kawasaki&SearchStringCategoryName=">Kavazaki</a>
-                                    <br />
-                                    <a href="https://localhost:44366/Motor?SearchStringBrandName=Honda&SearchStringCategoryName=">Honda</a>
-                                    
+                                    <a class="nav-link text-dark" href="https://localhost:44366/Motor?SearchStringBrandName=Kawasaki&SearchStringCategoryName=">Kawasaki</a>
+                                    <a class="nav-link text-dark" href="https://localhost:44366/Motor?SearchStringBrandName=Honda&SearchStringCategoryName=">Honda</a>
+                                    <a class="nav-link text-dark" href="https://localhost:44366/Motor?SearchStringBrandName=Ducati&SearchStringCategoryName=">Ducati</a>
+                                    <a class="nav-link text-dark" href="https://localhost:44366/Motor?SearchStringBrandName=Suzuki&SearchStringCategoryName=">Suzuki</a>
+                                    <a class="nav-link text-dark" href="https://localhost:44366/Motor?SearchStringBrandName=Polaris&SearchStringCategoryName=">Polaris</a>
+                                    <a class="nav-link text-dark" href="https://localhost:44366/Motor?SearchStringBrandName=BMW&SearchStringCategoryName=">BMW</a>
+                                    <a class="nav-link text-dark" href="https://localhost:44366/Motor?SearchStringBrandName=Yamaha&SearchStringCategoryName=">Yamaha</a>
+                                    <a class="nav-link text-dark" href="https://localhost:44366/Motor?SearchStringBrandName=Husqvarna&SearchStringCategoryName=">Husqvarna</a>
+                                    <a class="nav-link text-dark" href="https://localhost:44366/Motor?SearchStringBrandName=Aprilia&SearchStringCategoryName=">Aprilia</a>
                                 </div>
 
                             </div>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="https://localhost:44366/Motor?SearchStringBrandName=&SearchStringCategoryName=Dresses">Equipment</a>
+                        </li>
+                        
 
                         @if (this.User.Identity.IsAuthenticated)
 
@@ -56,23 +62,23 @@
                         }
                         @if ((this.User.Identity.IsAuthenticated) && (this.User.IsInRole("Administrator")))
                         {
-                    <li class="nav-item active">
-                        <div class="dropdown show">
-                            <a class="nav-link active dropdown-toggle" href="e"
-                               id="dropdownMenuLink" data-toggle="dropdown"
-                               aria-haspopup="true" aria-expanded="false">
-                                Statistic Module
-                            </a>
+                            <li class="nav-item active">
+                                <div class="dropdown show">
+                                    <a class="nav-link active dropdown-toggle" href="e"
+                                       id="dropdownMenuLink" data-toggle="dropdown"
+                                       aria-haspopup="true" aria-expanded="false">
+                                        Statistic Module
+                                    </a>
 
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                <a class="dropdown-item" asp-controller="Client" asp-action="Index">Clients</a>
-                                <a class="dropdown-item" asp-controller="Order" asp-action="Index">Orders</a>
-                                <a class="dropdown-item" asp-controller="Statistics" asp-action="Index">Statistics</a>
-                            </div>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                        <a class="dropdown-item" asp-controller="Client" asp-action="Index">Clients</a>
+                                        <a class="dropdown-item" asp-controller="Order" asp-action="Index">Orders</a>
+                                        <a class="dropdown-item" asp-controller="Statistics" asp-action="Index">Statistics</a>
+                                    </div>
 
-                        </div>
-                    </li>
-}
+                                </div>
+                            </li>
+                        }
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>
